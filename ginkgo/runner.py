@@ -19,9 +19,11 @@ your application service and calls `serve_forever()` on it.
 
 """
 import argparse
+import grp
 import logging
 import os
 import os.path
+import pwd
 import runpy
 import signal
 import sys
@@ -288,7 +290,7 @@ class Process(ginkgo.core.Service, ginkgo.util.GlobalContext):
         if self.group is not None:
             grp_record = grp.getgrnam(self.group)
             self.gid = grp_record.gr_gid
-            os.setgid(gid)
+            os.setgid(self.gid)
 
     def do_stop(self):
         logger.info("Stopping.")
